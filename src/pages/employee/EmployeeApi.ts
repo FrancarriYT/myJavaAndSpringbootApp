@@ -21,15 +21,15 @@ export function removeEmployee(id:string){
 export function saveEmployee(employee: Employee) {
     let employees = searchEmployees();
     if (employee.id) {
-      // Editar cliente existente
+      // Editar empleado existente
       let index = employees.findIndex((c: Employee) => c.id === employee.id);
       if (index !== -1) {
         employees[index] = employee;
       } else {
-        console.error("Cliente no encontrado para editar.");
+        console.error("Empleado no encontrado para editar.");
       }
     } else {
-      // Nuevo cliente
+      // Nuevo empleado
       employee.id = String(Math.round(Math.random() * 1000)); // Otra opción: employee.id = (Math.round(Math.random() * 1000)).toString();
       employees.push(employee);
     }
