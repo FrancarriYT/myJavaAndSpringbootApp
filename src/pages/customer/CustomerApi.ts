@@ -1,4 +1,5 @@
 import { search } from "ionicons/icons";
+import Customer from "./Customer";
 
 export function searchCustomers() {
     if (!localStorage['customers']) {
@@ -8,38 +9,20 @@ export function searchCustomers() {
     let customers = localStorage['customers'];
     return JSON.parse(customers);
   }
-  
-    // const datosDeEjemplo = [
-    //     {
-    //         id: '1',
-    //         firstname: 'Francisco',
-    //         lastname: 'Carrizo',
-    //         email: 'francarri1pro@Gmail.com',
-    //         phone: '+54 261 3376001',
-    //         address: 'Avenida Boulogne Sur Mer 2117'
-    //     },
-    //     {
-    //         id: '2',
-    //         firstname: 'Pepito',
-    //         lastname: 'Marcianito',
-    //         email: 'pepitomail@Gmail.com',
-    //         phone: '5254124',
-    //         address: 'Debajo del puente'
-    //     }
-    // ];
+
 
 export function removeCustomer(id:string){
     let customers = searchCustomers();
-    let index = customers.findIndex((customer:any) => customer.id == id);
+    let index = customers.findIndex((customer:Customer) => customer.id == id);
     customers.splice(index, 1);
     localStorage['customers'] = JSON.stringify(customers);    
 }
 
-export function saveCustomer(customer: any) {
+export function saveCustomer(customer: Customer) {
     let customers = searchCustomers();
     if (customer.id) {
       // Editar cliente existente
-      let index = customers.findIndex((c: any) => c.id === customer.id);
+      let index = customers.findIndex((c: Customer) => c.id === customer.id);
       if (index !== -1) {
         customers[index] = customer;
       } else {
@@ -47,7 +30,7 @@ export function saveCustomer(customer: any) {
       }
     } else {
       // Nuevo cliente
-      customer.id = Math.round(Math.random() * 1000);
+      customer.id = String(Math.round(Math.random() * 1000)); // Otra opción: customer.id = (Math.round(Math.random() * 1000)).toString();
       customers.push(customer);
     }
   
@@ -57,5 +40,5 @@ export function saveCustomer(customer: any) {
 export function searchCustomerById(id : string){
 
     let customers = searchCustomers();
-    return customers.find((customer:any) => customer.id == id)
+    return customers.find((customer:Customer) => customer.id == id)
 }

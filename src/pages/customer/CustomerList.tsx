@@ -18,11 +18,12 @@ import {
 import { useHistory, useParams } from 'react-router';
 import { add, close, pencil } from 'ionicons/icons';
 import { removeCustomer, searchCustomers } from './CustomerApi';
+import Customer from './Customer';
 
 const CustomerList: React.FC = () => {
   const { name } = useParams<{ name: string }>();
 
-  const [ customers, setCustomers] = useState<any> ([]);
+  const [ customers, setCustomers] = useState<Customer[]> ([]);
   const history = useHistory();
   useEffect(() => {
     search();
@@ -81,18 +82,18 @@ const CustomerList: React.FC = () => {
             <IonCol>Acciones</IonCol>
         </IonRow>
 
-        {customers.map((customer: any) =>
+        {customers.map((customer: Customer) =>
             <IonRow>
                 <IonCol>{customer.firstname} {customer.lastname}</IonCol>
                 <IonCol>{customer.email}</IonCol>
                 <IonCol>{customer.phone}</IonCol>
                 <IonCol>{customer.address}</IonCol>
                 <IonCol>
-                    <IonButton color= 'primary' fill='clear' onClick={() => editCustomer(customer.id)}>
+                    <IonButton color= 'primary' fill='clear' onClick={() => editCustomer(String(customer.id))}>
                         <IonIcon icon={pencil} slot='icon-only'/>
                     </IonButton>
 
-                    <IonButton color= 'danger' fill='clear' onClick={() => remove(customer.id)}>
+                    <IonButton color= 'danger' fill='clear' onClick={() => remove(String(customer.id))}>
                         <IonIcon icon={close} slot='icon-only'/>
                     </IonButton>
                 </IonCol>
