@@ -240,3 +240,31 @@ html {
   https://ionicframework.com/docs/layout/dynamic-font-scaling */
   --ion-dynamic-font: var(--ion-default-dynamic-font);
 }
+
+
+/* Estilos para el encabezado de la tabla */
+.table-card .table-header ion-col {
+  background: #d5d4d4; /* Fondo blanco para el encabezado de la tabla */
+  color: #333; /* Texto oscuro para el encabezado de la tabla */
+  font-weight: bold; /* Texto en negrita para el encabezado */
+  border: 1px solid #333; /* Borde oscuro para el encabezado */
+  text-transform: uppercase;
+  padding: 12px; /* Padding dentro de los elementos */
+}
+
+/* Estilos para el contenido de la tabla */
+.table-card .table ion-col {
+  color: #333; /* Color de texto oscuro para las columnas */
+  font-weight: bold; /* Texto en negrita para todas las columnas */
+  padding: 12px; /* Padding dentro de los elementos */
+}
+
+/* Estilos para filas impares */
+.table-card .odd-row ion-col {
+  background: #F2F2F2; /* Fondo claro para filas impares */
+}
+
+/* Estilos para filas pares */
+.table-card .even-row ion-col {
+  background: #E0E0E0; /* Fondo más oscuro para filas pares */
+}
