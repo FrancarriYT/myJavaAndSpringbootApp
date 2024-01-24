@@ -18,14 +18,14 @@ import {
 } from '@ionic/react';
 import { useHistory, useParams } from 'react-router';
 import { add, checkmark, close, pencil } from 'ionicons/icons';
-import { removeVendor, saveVendor, searchVendorById, searchVendors } from './VendorApi';
-import Vendor from './Vendor';
+import { removeSupplier, saveSupplier, searchSupplierById, searchSuppliers } from './SupplierApi';
+import Supplier from './Supplier';
 
-const VendorEdit: React.FC = () => {
+const SupplierEdit: React.FC = () => {
   const { name, id } = useParams<{ name: string; id : string }>();
 
 
-  const [ vendor, setVendor] = useState<Vendor> ({});
+  const [ vendor, setSupplier] = useState<Supplier> ({});
   const history = useHistory();
   useEffect(() => {
     search();
@@ -34,9 +34,9 @@ const VendorEdit: React.FC = () => {
 
     const search = () => {
         if (id !== 'new') {
-          let result = searchVendorById(id);
+          let result = searchSupplierById(id);
           if (result) {
-            setVendor(result);
+            setSupplier(result);
           }
         }
       };
@@ -44,8 +44,8 @@ const VendorEdit: React.FC = () => {
 
   const save = ()  => {
 
-    saveVendor(vendor);
-    history.push('/page/vendors');
+    saveSupplier(vendor);
+    history.push('/page/suppliers');
   }
   return (
     <IonPage>
@@ -129,4 +129,4 @@ const VendorEdit: React.FC = () => {
   );
 };
 
-export default VendorEdit;
+export default SupplierEdit;
