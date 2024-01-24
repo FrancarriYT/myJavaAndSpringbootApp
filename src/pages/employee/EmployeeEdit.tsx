@@ -110,6 +110,15 @@ const EmployeeEdit: React.FC = () => {
                 </IonCol>
             </IonRow>
 
+            <IonRow>
+                <IonCol>
+                    <IonItem>
+                        <IonInput label="Salario" labelPlacement="stacked" placeholder="Insertar un salario. ej: 55.000" 
+                        value={employee.salary} onIonChange={e => employee.salary = Number(e.detail.value)}></IonInput>
+                    </IonItem>
+                </IonCol>
+            </IonRow>
+
 
             
 

@@ -25,7 +25,7 @@ const SupplierEdit: React.FC = () => {
   const { name, id } = useParams<{ name: string; id : string }>();
 
 
-  const [ vendor, setSupplier] = useState<Supplier> ({});
+  const [ supplier, setSupplier] = useState<Supplier> ({});
   const history = useHistory();
   useEffect(() => {
     search();
@@ -44,7 +44,7 @@ const SupplierEdit: React.FC = () => {
 
   const save = ()  => {
 
-    saveSupplier(vendor);
+    saveSupplier(supplier);
     history.push('/page/suppliers');
   }
   return (
@@ -73,15 +73,15 @@ const SupplierEdit: React.FC = () => {
             <IonRow>
                 <IonCol>
                     <IonItem>
-                        <IonInput label="Nombre" labelPlacement="stacked" placeholder="Insertar nombre. ej: Joe" 
-                        value={vendor.firstname} onIonChange={e => vendor.firstname = String(e.detail.value)}></IonInput>
+                        <IonInput label="Nombre" labelPlacement="stacked" placeholder="Insertar nombre. ej: Amazon" 
+                        value={supplier.name} onIonChange={e => supplier.name = String(e.detail.value)}></IonInput>
                     </IonItem>
                 </IonCol>
 
                 <IonCol>
                     <IonItem>
-                        <IonInput label="Apellido" labelPlacement="stacked" placeholder="Insertar apellido. ej: Doe" 
-                        value = {vendor.lastname} onIonChange={e => vendor.lastname = String(e.detail.value)}></IonInput>
+                        <IonInput label="Contacto" labelPlacement="stacked" placeholder="Insertar contacto. ej: Manuél Sanchez" 
+                        value = {supplier.contact} onIonChange={e => supplier.contact = String(e.detail.value)}></IonInput>
                     </IonItem>
                 </IonCol>
 
@@ -90,14 +90,14 @@ const SupplierEdit: React.FC = () => {
                 <IonCol>
                     <IonItem>
                         <IonInput label="Correo Electrónico" labelPlacement="stacked" placeholder="Insertar correo electrónico. ej: pep12@gmail.com" 
-                        value={vendor.email} onIonChange={e => vendor.email = String(e.detail.value)}></IonInput>
+                        value={supplier.email} onIonChange={e => supplier.email = String(e.detail.value)}></IonInput>
                     </IonItem>
                 </IonCol>
 
                 <IonCol>
                     <IonItem>
                         <IonInput label="Teléfono" labelPlacement="stacked" placeholder="Insertar teléfono. ej: 07700900461 "
-                        value={vendor.phone} onIonChange={e => vendor.phone = String(e.detail.value)}></IonInput>
+                        value={supplier.phone} onIonChange={e => supplier.phone = String(e.detail.value)}></IonInput>
                     </IonItem>
                 </IonCol>
             </IonRow>
@@ -105,7 +105,16 @@ const SupplierEdit: React.FC = () => {
                 <IonCol>
                     <IonItem>
                         <IonInput label="Dirección" labelPlacement="stacked" placeholder="Insertar dirección. ej: Avenida Puentes 2341" 
-                        value={vendor.address} onIonChange={e => vendor.address = String(e.detail.value)}></IonInput>
+                        value={supplier.address} onIonChange={e => supplier.address = String(e.detail.value)}></IonInput>
+                    </IonItem>
+                </IonCol>
+            </IonRow>
+          
+            <IonRow>
+                <IonCol>
+                    <IonItem>
+                        <IonInput label="Website" labelPlacement="stacked" placeholder="Insertar sitio web. ej: Amazon.com" 
+                        value={supplier.web} onIonChange={e => supplier.web = String(e.detail.value)}></IonInput>
                     </IonItem>
                 </IonCol>
             </IonRow>

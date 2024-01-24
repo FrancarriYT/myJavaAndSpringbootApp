@@ -78,16 +78,16 @@ const SupplierList: React.FC = () => {
             <IonCol>Nombre</IonCol>
             <IonCol>Email</IonCol>
             <IonCol>Teléfono</IonCol>
-            <IonCol>Dirección</IonCol>
+            <IonCol>Web</IonCol>
             <IonCol>Acciones</IonCol>
         </IonRow>
 
         {suppliers.map((supplier: Supplier) =>
             <IonRow>
-                <IonCol>{supplier.firstname} {supplier.lastname}</IonCol>
-                <IonCol>{supplier.email}</IonCol>
-                <IonCol>{supplier.phone}</IonCol>
-                <IonCol>{supplier.address}</IonCol>
+                <IonCol>{supplier.name && (supplier.name.length > 20 ? supplier.name.substring(0, 20) + '...' : supplier.name)}</IonCol>
+                <IonCol>{supplier.email && (supplier.email.length > 20 ? supplier.email.substring(0, 20) + '...' : supplier.email)}</IonCol>
+                <IonCol>{supplier.phone && (supplier.phone.length > 20 ? supplier.phone.substring(0, 20) + '...' : supplier.phone)}</IonCol>
+                <IonCol>{supplier.web && (supplier.web.length > 20 ? supplier.web.substring(0, 20) + '...' : supplier.web)}</IonCol>
                 <IonCol>
                     <IonButton color= 'primary' fill='clear' onClick={() => editSupplier(String(supplier.id))}>
                         <IonIcon icon={pencil} slot='icon-only'/>
