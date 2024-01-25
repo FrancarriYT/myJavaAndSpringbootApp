@@ -33,9 +33,9 @@ const CustomerList: React.FC = () => {
       removeCustomer(id);
       search();
   }
-  const search = () =>{
-      let result = searchCustomers();
-      setCustomers(result);
+  const search = async () =>{
+      let result = await searchCustomers();
+      setCustomers( result);
   }
 
   const addCustomer = () => {

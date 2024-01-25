@@ -1,25 +1,29 @@
 import { search } from "ionicons/icons";
 import Customer from "./Customer";
 
-export function searchCustomers() {
-    if (!localStorage['customers']) {
-      localStorage['customers'] = '[]';
+export async function searchCustomers() {
+  let url = process.env.REACT_APP_API || 'http://localhost:8080/api/customer/get/all';
+  let response = await fetch(url, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
     }
-  
-    let customers = localStorage['customers'];
-    return JSON.parse(customers);
-  }
+  });
+
+  return await response.json();
+}
 
 
-export function removeCustomer(id:string){
-    let customers = searchCustomers();
+
+export async function removeCustomer(id:string){
+    let customers = await searchCustomers();
     let index = customers.findIndex((customer:Customer) => customer.id == id);
     customers.splice(index, 1);
     localStorage['customers'] = JSON.stringify(customers);    
 }
 
-export function saveCustomer(customer: Customer) {
-    let customers = searchCustomers();
+export async function saveCustomer(customer: Customer) {
+    let customers = await searchCustomers();
     if (customer.id) {
       // Editar cliente existente
       let index = customers.findIndex((c: Customer) => c.id === customer.id);
@@ -37,8 +41,8 @@ export function saveCustomer(customer: Customer) {
     localStorage['customers'] = JSON.stringify(customers);
   }
   
-export function searchCustomerById(id : string){
+export async function searchCustomerById(id : string){
 
-    let customers = searchCustomers();
+    let customers = await searchCustomers();
     return customers.find((customer:Customer) => customer.id == id)
 }
