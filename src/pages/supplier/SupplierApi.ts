@@ -1,42 +1,48 @@
-import { search } from "ionicons/icons";
 import Supplier from "./Supplier";
 
-export function searchSuppliers() {
-  if (!localStorage['suppliers']) {
-    localStorage['suppliers'] = '[]';
-  }
+const API_BASE_URL = process.env.REACT_APP_API || 'http://localhost:8080/api/';
 
-  let suppliers = localStorage['suppliers'];
-  return JSON.parse(suppliers);
-}
-
-export function removeSupplier(id: string) {
-  let suppliers = searchSuppliers();
-  let index = suppliers.findIndex((supplier: Supplier) => supplier.id === id);
-  suppliers.splice(index, 1);
-  localStorage['suppliers'] = JSON.stringify(suppliers);
-}
-
-export function saveSupplier(supplier: Supplier) {
-  let suppliers = searchSuppliers();
-  if (supplier.id) {
-    // Editar proveedor existente
-    let index = suppliers.findIndex((s: Supplier) => s.id === supplier.id);
-    if (index !== -1) {
-      suppliers[index] = supplier;
-    } else {
-      console.error("Proveedor no encontrado para editar.");
+export async function searchSuppliers() {
+  let url = `${API_BASE_URL}supplier/get/all`;
+  let response = await fetch(url, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
     }
-  } else {
-    // Nuevo proveedor
-    supplier.id = String(Math.round(Math.random() * 1000));
-    suppliers.push(supplier);
-  }
+  });
 
-  localStorage['suppliers'] = JSON.stringify(suppliers);
+  return await response.json();
 }
 
-export function searchSupplierById(id: string) {
-  let suppliers = searchSuppliers();
-  return suppliers.find((supplier: Supplier) => supplier.id === id);
+export async function removeSupplier(id: string) {
+  let url = `${API_BASE_URL}supplier/delete/${id}`;
+  await fetch(url, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+}
+
+export async function saveSupplier(supplier: Supplier) {
+  let url = `${API_BASE_URL}supplier/create`;
+  await fetch(url, {
+    method: 'POST',
+    body: JSON.stringify(supplier),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+}
+
+export async function searchSupplierById(id: string) {
+  let url = `${API_BASE_URL}supplier/getById/${id}`;
+  let response = await fetch(url, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+
+  return await response.json();
 }

@@ -1,8 +1,9 @@
-import { search } from "ionicons/icons";
 import Customer from "./Customer";
 
+const API_BASE_URL = process.env.REACT_APP_API || 'http://localhost:8080/api/';
+
 export async function searchCustomers() {
-  let url = process.env.REACT_APP_API || 'http://localhost:8080/api/customer/get/all';
+  let url = `${API_BASE_URL}customer/get/all`;
   let response = await fetch(url, {
     method: 'GET',
     headers: {
@@ -13,36 +14,35 @@ export async function searchCustomers() {
   return await response.json();
 }
 
-
-
-export async function removeCustomer(id:string){
-    let customers = await searchCustomers();
-    let index = customers.findIndex((customer:Customer) => customer.id == id);
-    customers.splice(index, 1);
-    localStorage['customers'] = JSON.stringify(customers);    
+export async function removeCustomer(id: string) {
+  let url = `${API_BASE_URL}customer/delete/${id}`;
+  await fetch(url, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
 }
 
 export async function saveCustomer(customer: Customer) {
-    let customers = await searchCustomers();
-    if (customer.id) {
-      // Editar cliente existente
-      let index = customers.findIndex((c: Customer) => c.id === customer.id);
-      if (index !== -1) {
-        customers[index] = customer;
-      } else {
-        console.error("Cliente no encontrado para editar.");
-      }
-    } else {
-      // Nuevo cliente
-      customer.id = String(Math.round(Math.random() * 1000)); // Otra opción: customer.id = (Math.round(Math.random() * 1000)).toString();
-      customers.push(customer);
+  let url = `${API_BASE_URL}customer/create`;
+  await fetch(url, {
+    method: 'POST',
+    body: JSON.stringify(customer),
+    headers: {
+      'Content-Type': 'application/json'
     }
-  
-    localStorage['customers'] = JSON.stringify(customers);
-  }
-  
-export async function searchCustomerById(id : string){
+  });
+}
 
-    let customers = await searchCustomers();
-    return customers.find((customer:Customer) => customer.id == id)
+export async function searchCustomerById(id: string) {
+  let url = `${API_BASE_URL}customer/getById/${id}`;
+  let response = await fetch(url, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+
+  return await response.json();
 }

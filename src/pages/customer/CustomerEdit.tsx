@@ -16,23 +16,25 @@ import {
   IonTitle,
   IonToolbar,
 } from '@ionic/react';
-import { useHistory, useParams } from 'react-router';
+import { useHistory, useParams, useRouteMatch } from 'react-router';
 import { add, checkmark, close, pencil } from 'ionicons/icons';
 import { removeCustomer, saveCustomer, searchCustomerById, searchCustomers } from './CustomerApi';
 import Customer from './Customer';
 
 const CustomerEdit: React.FC = () => {
-  const { name, id } = useParams<{ name: string; id : string }>();
-
-
+  const {name} = useParams<{ name: string;}>();
+  const routeMatch : any = useRouteMatch("/page/customer/:id")
   const [ customer, setCustomer] = useState<Customer> ({});
   const history = useHistory();
+  const id = routeMatch?.params?.id;
+
   useEffect(() => {
     search();
-    }, []);
+    }, [history.location.pathname]);
 
 
     const search = async () => {
+
         if (id !== 'new') {
           let result = await searchCustomerById(id);
           if (result) {
@@ -40,11 +42,12 @@ const CustomerEdit: React.FC = () => {
           }
         }
       };
-      
 
-  const save = ()  => {
 
-    saveCustomer(customer);
+
+  const save = async ()  => {
+
+    await saveCustomer(customer);
     history.push('/page/customers');
   }
   return (

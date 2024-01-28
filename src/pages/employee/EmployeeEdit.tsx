@@ -16,25 +16,25 @@ import {
   IonTitle,
   IonToolbar,
 } from '@ionic/react';
-import { useHistory, useParams } from 'react-router';
+import { useHistory, useParams, useRouteMatch } from 'react-router';
 import { add, checkmark, close, pencil } from 'ionicons/icons';
 import { removeEmployee, saveEmployee, searchEmployeeById, searchEmployees } from './EmployeeApi';
 import Employee from './Employee';
 
 const EmployeeEdit: React.FC = () => {
-  const { name, id } = useParams<{ name: string; id : string }>();
-
-
+  const { name} = useParams<{ name: string;}>();
+  const routeMatch : any = useRouteMatch("/page/employee/:id")
   const [ employee, setEmployee] = useState<Employee> ({});
   const history = useHistory();
+  const id = routeMatch?.params?.id;
   useEffect(() => {
     search();
-    }, []);
+    }, [history.location.pathname]);
 
 
-    const search = () => {
+    const search = async () => {
         if (id !== 'new') {
-          let result = searchEmployeeById(id);
+          let result = await searchEmployeeById(id);
           if (result) {
             setEmployee(result);
           }
@@ -42,9 +42,9 @@ const EmployeeEdit: React.FC = () => {
       };
       
 
-  const save = ()  => {
+  const save = async ()  => {
 
-    saveEmployee(employee);
+    await saveEmployee(employee);
     history.push('/page/employees');
   }
   return (

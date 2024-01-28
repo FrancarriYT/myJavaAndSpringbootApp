@@ -19,6 +19,7 @@ import { useHistory, useParams } from 'react-router';
 import { add, close, pencil } from 'ionicons/icons';
 import { removeEmployee, searchEmployees } from './EmployeeApi';
 import Employee from './Employee';
+import { truncateText, truncateTextM } from '../../components/functions';
 
 const EmployeeList: React.FC = () => {
   const { name } = useParams<{ name: string }>();
@@ -29,12 +30,12 @@ const EmployeeList: React.FC = () => {
     search();
     }, [history.location.pathname]);
 
-  const remove = (id:string) => {
-      removeEmployee(id);
+  const remove = async (id:string) => {
+      await removeEmployee(id);
       search();
   }
-  const search = () =>{
-      let result = searchEmployees();
+  const search = async () =>{
+      let result = await searchEmployees();
       setEmployees(result);
   }
 
@@ -84,10 +85,10 @@ const EmployeeList: React.FC = () => {
 
         {employees.map((employee: Employee) =>
             <IonRow>
-                <IonCol>{employee.firstname} {employee.lastname}</IonCol>
-                <IonCol>{employee.email}</IonCol>
-                <IonCol>{employee.phone}</IonCol>
-                <IonCol>{employee.address}</IonCol>
+              <IonCol>{truncateTextM(employee.firstname, employee.lastname)}</IonCol>
+              <IonCol>{truncateText(employee.email)}</IonCol>
+              <IonCol>{truncateText(employee.phone)}</IonCol>
+              <IonCol>{truncateText(employee.address)}</IonCol>
                 <IonCol>
                     <IonButton color= 'primary' fill='clear' onClick={() => editEmployee(String(employee.id))}>
                         <IonIcon icon={pencil} slot='icon-only'/>

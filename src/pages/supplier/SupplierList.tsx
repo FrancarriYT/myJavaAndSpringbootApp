@@ -19,6 +19,7 @@ import { useHistory, useParams } from 'react-router';
 import { add, close, pencil } from 'ionicons/icons';
 import { removeSupplier, searchSuppliers } from './SupplierApi';
 import Supplier from './Supplier';
+import { truncateText } from '../../components/functions';
 
 const SupplierList: React.FC = () => {
   const { name } = useParams<{ name: string }>();
@@ -29,12 +30,12 @@ const SupplierList: React.FC = () => {
     search();
     }, [history.location.pathname]);
 
-  const remove = (id:string) => {
-      removeSupplier(id);
+  const remove = async (id:string) => {
+      await removeSupplier(id);
       search();
   }
-  const search = () =>{
-      let result = searchSuppliers();
+  const search = async () =>{
+      let result = await searchSuppliers();
       setSuppliers(result);
   }
 
@@ -84,10 +85,10 @@ const SupplierList: React.FC = () => {
 
         {suppliers.map((supplier: Supplier) =>
             <IonRow>
-                <IonCol>{supplier.name && (supplier.name.length > 20 ? supplier.name.substring(0, 20) + '...' : supplier.name)}</IonCol>
-                <IonCol>{supplier.email && (supplier.email.length > 20 ? supplier.email.substring(0, 20) + '...' : supplier.email)}</IonCol>
-                <IonCol>{supplier.phone && (supplier.phone.length > 20 ? supplier.phone.substring(0, 20) + '...' : supplier.phone)}</IonCol>
-                <IonCol>{supplier.web && (supplier.web.length > 20 ? supplier.web.substring(0, 20) + '...' : supplier.web)}</IonCol>
+              <IonCol>{truncateText(supplier.name)}</IonCol>
+              <IonCol>{truncateText(supplier.email)}</IonCol>
+              <IonCol>{truncateText(supplier.phone)}</IonCol>
+              <IonCol>{truncateText(supplier.web)}</IonCol>
                 <IonCol>
                     <IonButton color= 'primary' fill='clear' onClick={() => editSupplier(String(supplier.id))}>
                         <IonIcon icon={pencil} slot='icon-only'/>

@@ -19,6 +19,7 @@ import { useHistory, useParams } from 'react-router';
 import { add, close, pencil } from 'ionicons/icons';
 import { removeCustomer, searchCustomers } from './CustomerApi';
 import Customer from './Customer';
+import { truncateText } from '../../components/functions';
 
 const CustomerList: React.FC = () => {
   const { name } = useParams<{ name: string }>();
@@ -29,8 +30,8 @@ const CustomerList: React.FC = () => {
     search();
     }, [history.location.pathname]);
 
-  const remove = (id:string) => {
-      removeCustomer(id);
+  const remove = async (id:string) => {
+      await removeCustomer(id);
       search();
   }
   const search = async () =>{
@@ -41,9 +42,10 @@ const CustomerList: React.FC = () => {
   const addCustomer = () => {
     history.push('/page/customer/new')
   }
-  const editCustomer = (id:string) => {
-    history.push('/page/customer/' + id)
+  const editCustomer = (id: string) => {
+    history.push('/page/customer/' + id);
   }
+  
   return (
     <IonPage>
       <IonHeader>
@@ -84,10 +86,10 @@ const CustomerList: React.FC = () => {
 
         {customers.map((customer: Customer) =>
             <IonRow>
-                <IonCol>{customer.firstname} {customer.lastname}</IonCol>
-                <IonCol>{customer.email}</IonCol>
-                <IonCol>{customer.phone}</IonCol>
-                <IonCol>{customer.address}</IonCol>
+              <IonCol>{truncateText(customer.firstname)} {truncateText(customer.lastname)}</IonCol>
+              <IonCol>{truncateText(customer.email)}</IonCol>
+              <IonCol>{truncateText(customer.phone)}</IonCol>
+              <IonCol>{truncateText(customer.address)}</IonCol>
                 <IonCol>
                     <IonButton color= 'primary' fill='clear' onClick={() => editCustomer(String(customer.id))}>
                         <IonIcon icon={pencil} slot='icon-only'/>

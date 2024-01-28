@@ -16,35 +16,35 @@ import {
   IonTitle,
   IonToolbar,
 } from '@ionic/react';
-import { useHistory, useParams } from 'react-router';
+import { useHistory, useParams, useRouteMatch } from 'react-router';
 import { add, checkmark, close, pencil } from 'ionicons/icons';
 import { removeSupplier, saveSupplier, searchSupplierById, searchSuppliers } from './SupplierApi';
 import Supplier from './Supplier';
 
 const SupplierEdit: React.FC = () => {
-  const { name, id } = useParams<{ name: string; id : string }>();
-
-
+  const { name} = useParams<{ name: string;}>();
+  const routeMatch : any = useRouteMatch("/page/supplier/:id")
   const [ supplier, setSupplier] = useState<Supplier> ({});
   const history = useHistory();
+  const id = routeMatch?.params?.id;
   useEffect(() => {
     search();
-    }, []);
+    }, [history.location.pathname]);
 
 
-    const search = () => {
+    const search = async () => {
         if (id !== 'new') {
-          let result = searchSupplierById(id);
+          let result = await searchSupplierById(id);
           if (result) {
             setSupplier(result);
           }
         }
       };
-      
 
-  const save = ()  => {
 
-    saveSupplier(supplier);
+  const save = async ()  => {
+
+    await saveSupplier(supplier);
     history.push('/page/suppliers');
   }
   return (
@@ -120,7 +120,7 @@ const SupplierEdit: React.FC = () => {
             </IonRow>
 
 
-            
+
 
             <IonItem>
                 <IonButton onClick= {save} color = "success" fill='solid' slot='end' size='default'>

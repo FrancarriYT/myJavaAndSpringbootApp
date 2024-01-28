@@ -1,44 +1,48 @@
-import { search } from "ionicons/icons";
 import Employee from "./Employee";
 
-export function searchEmployees() {
-    if (!localStorage['employees']) {
-      localStorage['employees'] = '[]';
+const API_BASE_URL = process.env.REACT_APP_API || 'http://localhost:8080/api/';
+
+export async function searchEmployees() {
+  let url = `${API_BASE_URL}employee/get/all`;
+  let response = await fetch(url, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
     }
-  
-    let employees = localStorage['employees'];
-    return JSON.parse(employees);
-  }
+  });
 
-
-export function removeEmployee(id:string){
-    let employees = searchEmployees();
-    let index = employees.findIndex((employee:Employee) => employee.id == id);
-    employees.splice(index, 1);
-    localStorage['employees'] = JSON.stringify(employees);    
+  return await response.json();
 }
 
-export function saveEmployee(employee: Employee) {
-    let employees = searchEmployees();
-    if (employee.id) {
-      // Editar empleado existente
-      let index = employees.findIndex((c: Employee) => c.id === employee.id);
-      if (index !== -1) {
-        employees[index] = employee;
-      } else {
-        console.error("Empleado no encontrado para editar.");
-      }
-    } else {
-      // Nuevo empleado
-      employee.id = String(Math.round(Math.random() * 1000)); // Otra opción: employee.id = (Math.round(Math.random() * 1000)).toString();
-      employees.push(employee);
+export async function removeEmployee(id: string) {
+  let url = `${API_BASE_URL}employee/delete/${id}`;
+  await fetch(url, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json'
     }
-  
-    localStorage['employees'] = JSON.stringify(employees);
-  }
-  
-export function searchEmployeeById(id : string){
+  });
+}
 
-    let employees = searchEmployees();
-    return employees.find((employee:Employee) => employee.id == id)
+export async function saveEmployee(employee: Employee) {
+  let url = `${API_BASE_URL}employee/create`;
+  await fetch(url, {
+    method: 'POST',
+    body: JSON.stringify(employee),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+}
+
+export async function searchEmployeeById(id: string) {
+  let url = `${API_BASE_URL}employee/getById/${id}`;
+  let response = await fetch(url, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+
+  return await response.json();
 }
