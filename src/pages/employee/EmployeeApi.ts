@@ -1,6 +1,6 @@
 import Employee from "./Employee";
 
-const API_BASE_URL = process.env.REACT_APP_API || 'http://localhost:8080/api/';
+const API_BASE_URL = process.env.REACT_APP_API || 'http://35.199.79.183/api/';
 
 export async function searchEmployees() {
   let url = `${API_BASE_URL}employee/get/all`;

@@ -1,6 +1,6 @@
 import Supplier from "./Supplier";
 
-const API_BASE_URL = process.env.REACT_APP_API || 'http://localhost:8080/api/';
+const API_BASE_URL = process.env.REACT_APP_API || 'http://35.199.79.183/api/';
 
 export async function searchSuppliers() {
   let url = `${API_BASE_URL}supplier/get/all`;
