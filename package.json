@@ -27,6 +27,7 @@
     "react-dom": "^18.2.0",
     "react-router": "^5.3.4",
     "react-router-dom": "^5.3.4",
+    "sonner": "^1.4.0",
     "vite-plugin-env-compatible": "^2.0.1"
   },
   "devDependencies": {

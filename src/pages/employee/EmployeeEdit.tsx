@@ -20,6 +20,7 @@ import { useHistory, useParams, useRouteMatch } from 'react-router';
 import { add, checkmark, close, pencil } from 'ionicons/icons';
 import { removeEmployee, saveEmployee, searchEmployeeById, searchEmployees } from './EmployeeApi';
 import Employee from './Employee';
+import { Toaster, toast } from 'sonner';
 
 const EmployeeEdit: React.FC = () => {
   const { name} = useParams<{ name: string;}>();
@@ -29,24 +30,36 @@ const EmployeeEdit: React.FC = () => {
   const id = routeMatch?.params?.id;
   useEffect(() => {
     search();
-    }, [history.location.pathname]);
+  }, [history.location.pathname]);
 
+  const search = async () => {
+    if (id !== 'new') {
+      let result = await searchEmployeeById(id);
+      if (result) {
+        setEmployee(result);
+      }
+    }
+  };
 
-    const search = async () => {
-        if (id !== 'new') {
-          let result = await searchEmployeeById(id);
-          if (result) {
-            setEmployee(result);
-          }
-        }
-      };
-      
+  const save = async () => {
+    const promise = () => new Promise((resolve) => setTimeout(() => resolve({ name: 'Sonner' }), 2000));
 
-  const save = async ()  => {
+    toast.promise(promise, {
+      loading: 'Guardando...',
+      success: (data) => {
+        return `Empleado guardado correctamente.`;
+      },
+      error: 'No se pudo guardar al empleado',
+    });
 
-    await saveEmployee(employee);
-    history.push('/page/employees');
-  }
+    try {
+      await saveEmployee(employee);
+      history.push('/page/employees');
+    } catch (error) {
+      console.error(error);
+      toast.error('No se pudo crear al empleado');
+    }
+  };
   return (
     <IonPage>
       <IonHeader>
@@ -134,6 +147,7 @@ const EmployeeEdit: React.FC = () => {
         </IonGrid>
 
       </IonContent>
+      <Toaster richColors expand= {true} /> {/* Agregar Toaster al final del componente */}
     </IonPage>
   );
 };
