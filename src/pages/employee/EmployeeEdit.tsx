@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import {
     IonButton,
-  IonButtons,
-  IonCard,
-  IonCol,
-  IonContent,
-  IonGrid,
-  IonHeader,
-  IonIcon,
-  IonInput,
-  IonItem,
-  IonMenuButton,
-  IonPage,
-  IonRow,
-  IonTitle,
-  IonToolbar,
+    IonButtons,
+    IonCard,
+    IonCol,
+    IonContent,
+    IonGrid,
+    IonHeader,
+    IonIcon,
+    IonInput,
+    IonItem,
+    IonMenuButton,
+    IonPage,
+    IonRow,
+    IonTitle,
+    IonToolbar,
 } from '@ionic/react';
 import { useHistory, useParams, useRouteMatch } from 'react-router';
 import { add, checkmark, close, pencil } from 'ionicons/icons';
@@ -41,25 +41,19 @@ const EmployeeEdit: React.FC = () => {
     }
   };
 
+
   const save = async () => {
-    const promise = () => new Promise((resolve) => setTimeout(() => resolve({ name: 'Sonner' }), 2000));
-
-    toast.promise(promise, {
-      loading: 'Guardando...',
-      success: (data) => {
-        return `Empleado guardado correctamente.`;
-      },
-      error: 'No se pudo guardar al empleado',
-    });
-
     try {
+      // Simula la operación de guardado
       await saveEmployee(employee);
+
+      toast.success('Empleado guardado correctamente', { className: 'sonner-toast-success' });
       history.push('/page/employees');
     } catch (error) {
-      console.error(error);
-      toast.error('No se pudo crear al empleado');
+      toast.error(`No se pudo crear al empleado: ${error}`, { className: 'sonner-toast-error' });
     }
   };
+  
   return (
     <IonPage>
       <IonHeader>
@@ -147,7 +141,7 @@ const EmployeeEdit: React.FC = () => {
         </IonGrid>
 
       </IonContent>
-      <Toaster richColors expand= {true} /> {/* Agregar Toaster al final del componente */}
+      <Toaster richColors expand={true}/> {/* Agregar Toaster al final del componente */}
     </IonPage>
   );
 };
